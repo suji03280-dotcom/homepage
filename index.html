@@ -86,7 +86,7 @@
     const { useState, useEffect } = React;
 
     /* ------------------------------------------------------------
-       1. ICON COMPONENTS (직접 정의하여 오류 원천 차단)
+       1. ICON COMPONENTS
        ------------------------------------------------------------ */
     const IconMenu = (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>;
     const IconX = (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>;
@@ -118,7 +118,7 @@
       const navLinks = [
         { name: "소개", href: "#about" },
         { name: "경력", href: "#experience" },
-        { name: "연수", href: "#lectures" },
+        // Lectures(연수) 메뉴 제거됨
         { name: "프로젝트", href: "#portfolio" },
         { name: "문의", href: "#contact" },
       ];
@@ -218,7 +218,6 @@
             <div className="relative w-72 h-72 md:w-96 md:h-96">
               {/* Image Container */}
               <div className="absolute inset-0 bg-white rounded-[2rem] shadow-2xl border-4 border-white overflow-hidden transform rotate-3 hover:rotate-0 transition-all duration-500">
-                 {/* 이미지 파일이 없다면 회색 박스로 대체됨 */}
                 <img 
                   src="대회실적.png" 
                   alt="Kim Suji Profile" 
@@ -304,56 +303,22 @@
       );
     };
 
-    const Lectures = () => {
-      const lectures = [
-        { title: "AI 수업 설계 워크숍", desc: "교실에서 바로 적용 가능한 AI 수업 디자인", file: "연수사진.jpg" },
-        { title: "학부모 대상 AI 교육", desc: "AI 시대의 자녀 교육 방향과 이해", file: "학부모연수.png" },
-        { title: "SW·코딩 기초 연수", desc: "블록코딩부터 피지컬 컴퓨팅까지", file: "대회실적.png" },
+    const Projects = () => {
+      // 이미지 파일명을 요청하신 3가지 파일로 변경했습니다.
+      const projectList = [
+        { title: "AI Catch Mind", desc: "AI 힌트로 그림을 맞히는 창의력 게임", img: "연수사진.jpg", tag: "WEB APP" },
+        { title: "Proverb Game", desc: "속담을 AI가 설명하고 맞히는 문해력 도구", img: "학부모연수.png", tag: "GAME" },
+        { title: "Shopping Mission", desc: "영어 쇼핑 미션 기반 상황극 학습", img: "대회실적.png", tag: "EDU" },
+        { title: "TTS Demo Tool", desc: "텍스트를 AI 음성으로 변환하는 체험", img: "연수사진.jpg", tag: "AI TOOL" }, // 4번째 이미지는 1번 이미지를 대체 사용
       ];
 
       return (
-        <section id="lectures" className="py-24 bg-white relative">
-           {/* Background Deco */}
-           <div className="absolute top-1/2 left-0 w-full h-64 bg-slate-50 -skew-y-3 z-0"></div>
+        <section id="portfolio" className="py-24 bg-white relative">
+          {/* Background Deco */}
+          <div className="absolute top-1/2 left-0 w-full h-64 bg-slate-50 -skew-y-3 z-0"></div>
 
           <div className="max-w-7xl mx-auto px-6 relative z-10">
-            <SectionTitle title="Lectures" subtitle="대표 연수 및 강의 자료" icon={IconMonitorPlay} />
-            
-            <div className="grid md:grid-cols-3 gap-8">
-              {lectures.map((lec, idx) => (
-                <div key={idx} className="glass-card hover-lift rounded-3xl p-8 flex flex-col justify-between group h-full">
-                  <div>
-                    <div className="mb-6 bg-blue-50 w-14 h-14 rounded-2xl flex items-center justify-center text-ai-blue group-hover:bg-ai-blue group-hover:text-white transition-colors duration-300">
-                      <IconBookOpen size={28} />
-                    </div>
-                    
-                    <h3 className="text-xl font-bold text-ai-dark mb-3">{lec.title}</h3>
-                    <p className="text-slate-500 mb-6">{lec.desc}</p>
-                  </div>
-                  
-                  <a href={lec.file} download className="mt-auto w-full py-3 rounded-xl border border-blue-100 text-ai-blue font-semibold hover:bg-blue-50 transition-colors flex items-center justify-center gap-2">
-                    <IconDownload size={18} /> 자료 다운로드
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      );
-    };
-
-    const Projects = () => {
-      const projectList = [
-        { title: "AI Catch Mind", desc: "AI 힌트로 그림을 맞히는 창의력 게임", img: "aicatchmind.png", tag: "WEB APP" },
-        { title: "Proverb Game", desc: "속담을 AI가 설명하고 맞히는 문해력 도구", img: "proverb-game.png", tag: "GAME" },
-        { title: "Shopping Mission", desc: "영어 쇼핑 미션 기반 상황극 학습", img: "shopping-mission.png", tag: "EDU" },
-        { title: "TTS Demo Tool", desc: "텍스트를 AI 음성으로 변환하는 체험", img: "tts-demo.png", tag: "AI TOOL" },
-      ];
-
-      return (
-        <section id="portfolio" className="py-24 bg-slate-50">
-          <div className="max-w-7xl mx-auto px-6">
-            <SectionTitle title="Projects" subtitle="직접 개발한 교육용 웹앱" icon={IconZap} />
+            <SectionTitle title="Projects" subtitle="직접 개발한 교육용 웹앱 및 프로젝트" icon={IconZap} />
             
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {projectList.map((p, idx) => (
@@ -366,9 +331,9 @@
                         onError={(e) => {e.target.style.display='none';}}
                     />
                     {/* Fallback pattern if image fails */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-slate-200 opacity-50"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-slate-200 opacity-50 -z-10"></div>
                     
-                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur text-ai-blue text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur text-ai-blue text-xs font-bold px-3 py-1 rounded-full shadow-sm z-10">
                       {p.tag}
                     </div>
                   </div>
@@ -388,7 +353,7 @@
     };
 
     const Contact = () => (
-      <section id="contact" className="py-24 relative overflow-hidden">
+      <section id="contact" className="py-24 relative overflow-hidden bg-slate-50">
         {/* Background Gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-ai-dark to-blue-900 z-0"></div>
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 z-0"></div>
@@ -433,7 +398,7 @@
         <Hero />
         <About />
         <Experience />
-        <Lectures />
+        {/* Lectures 섹션 제거됨 */}
         <Projects />
         <Contact />
         <Footer />
