@@ -4,207 +4,389 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>김수지 | AI & SW 연수 및 교육</title>
+  <meta name="description" content="라온초등학교 교사 김수지의 AI & SW 교육 포트폴리오">
 
   <!-- TailwindCSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- React CDN -->
+  <!-- React & Babel CDN -->
   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <!-- Lucide Icons (React Icons) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide-react@latest"></script>
 
-  <!-- Tailwind Custom Config -->
+  <!-- Tailwind Configuration -->
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            pastelBlue: "#E8F1FF",
-            deepBlue: "#1F3A93",
-            silver: "#E5E7EB"
+            brand: {
+              dark: "#0F172A",       // 깊은 남색 (텍스트, 강조)
+              primary: "#2563EB",    // 밝은 파랑 (메인 버튼, 포인트)
+              light: "#EFF6FF",      // 아주 연한 파랑 (배경)
+              silver: "#E2E8F0",     // 은색 (테두리, 배경 장식)
+              metallic: "#94A3B8"    // 메탈릭 실버 (보조 텍스트)
+            }
+          },
+          fontFamily: {
+            sans: ['Pretendard', 'Apple SD Gothic Neo', 'sans-serif'],
+          },
+          backgroundImage: {
+            'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+            'hero-pattern': "linear-gradient(to right bottom, #EFF6FF, #FFFFFF)",
           }
         }
       }
     }
   </script>
+
+  <!-- Custom Styles for 3D & Glassmorphism -->
+  <style>
+    @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+    
+    body { font-family: 'Pretendard', sans-serif; }
+
+    /* Glassmorphism Effect */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    }
+
+    /* 3D Hover Effect */
+    .hover-3d {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hover-3d:hover {
+      transform: translateY(-8px) scale(1.01);
+      box-shadow: 0 20px 40px -5px rgba(37, 99, 235, 0.2);
+    }
+
+    /* Silver Gradient Text */
+    .text-gradient-silver {
+      background: linear-gradient(135deg, #1e293b 0%, #64748b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    /* Blue Gradient Text */
+    .text-gradient-blue {
+      background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
 </head>
 
-<body class="bg-pastelBlue text-gray-800">
+<body class="bg-brand-light text-slate-800 antialiased selection:bg-brand-primary selection:text-white">
   <div id="root"></div>
 
-  <!-- React App -->
+  <!-- React Application -->
   <script type="text/babel">
+    const { useState, useEffect } = React;
+    const { Menu, X, ChevronRight, Download, Mail, ExternalLink, Award, BookOpen, MonitorPlay, Zap } = lucideReact;
 
-    const SectionTitle = ({ title, subtitle }) => (
-      <div class="text-center mb-10">
-        <h2 class="text-3xl font-bold text-deepBlue">{title}</h2>
-        {subtitle && <p class="text-gray-600 mt-2">{subtitle}</p>}
-      </div>
-    );
+    /* --- UI Components --- */
 
-    /* -------------------- HERO -------------------- */
-    const Hero = () => (
-      <section class="max-w-6xl mx-auto px-6 py-20 flex flex-col md:flex-row items-center gap-10">
-        <div class="flex-1">
-          <h1 class="text-4xl md:text-5xl font-bold text-deepBlue leading-snug">
-            라온초등학교 교사<br />
-            김수지<br />
-            <span class="text-xl md:text-2xl text-gray-700">
-              AI & SW 연수 및 교육
-            </span>
-          </h1>
-          <p class="mt-6 text-gray-700 leading-relaxed">
-            아이들을 위한 미래 교육, 교사를 위한 스마트한 교육 혁신을 연구합니다.
-          </p>
+    // Navigation Bar
+    const Navbar = () => {
+      const [isOpen, setIsOpen] = useState(false);
+      const [scrolled, setScrolled] = useState(false);
 
-          <div class="mt-8 flex gap-4">
-            <a href="#contact"
-              class="px-6 py-3 bg-deepBlue text-white rounded-xl shadow hover:bg-blue-900 duration-200">
-              강의 문의
-            </a>
-            <a href="#portfolio"
-              class="px-6 py-3 bg-white border border-deepBlue text-deepBlue rounded-xl shadow hover:bg-silver duration-200">
-              포트폴리오 보기
-            </a>
-          </div>
-        </div>
+      useEffect(() => {
+        const handleScroll = () => setScrolled(window.scrollY > 50);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
 
-        <div class="flex-1 flex justify-center">
-          <img src="대회실적.png" alt="profile"
-            class="w-64 h-64 object-cover rounded-full shadow-lg border-4 border-white" />
-        </div>
-      </section>
-    );
-
-    /* -------------------- ABOUT -------------------- */
-    const About = () => (
-      <section id="about" class="max-w-5xl mx-auto px-6 py-20">
-        <SectionTitle title="나는 어떤 선생님인가요?" />
-
-        <div class="text-gray-700 space-y-5 leading-relaxed text-lg">
-          <p>
-            저는 기술을 목적이 아닌 **도구**로 바라봅니다.  
-            진짜 교육의 본질은 결국 “사람”이고, 교실에서 아이들과 마주하는 시간이
-            가장 중요하다고 믿습니다.
-          </p>
-
-          <p>
-            그래서 저는 AI와 SW 도구를 활용해 교사들의 반복 업무를 줄이고,
-            학생과 함께하는 의미 있는 시간을 늘리는 교육을 실천하고 있습니다.
-            기술은 교육을 더 좋은 방향으로 돕는 조용한 조력자여야 합니다.
-          </p>
-
-          <p>
-            앞으로도 미래 교육의 변화 속에서 학생들이 주도적으로 성장할 수 있도록,
-            함께 배우고 탐구하는 교사가 되고자 합니다.
-          </p>
-        </div>
-      </section>
-    );
-
-    /* -------------------- EXPERIENCE -------------------- */
-    const Experience = () => (
-      <section id="experience" class="max-w-6xl mx-auto px-6 py-20">
-        <SectionTitle title="Experience & Awards" subtitle="경력 및 수상" />
-
-        <div class="grid md:grid-cols-2 gap-6">
-          {[
-            "라온초등학교 재직 / AI·SW 기반 미래교육 연구",
-            "SW교육체험센터 전담 겸임교사",
-            "교실혁명 선도교사 활동",
-            "디지털전환유공 — 부총리 겸 교육부 장관상 수상",
-            "AI 활용 학습 혁신 사례 연구 및 연수 강의"
-          ].map((item) => (
-            <div class="bg-white rounded-xl shadow p-6 text-gray-700">{item}</div>
-          ))}
-        </div>
-      </section>
-    );
-
-    /* -------------------- LECTURES -------------------- */
-    const Lectures = () => (
-      <section id="lectures" class="max-w-6xl mx-auto px-6 py-20">
-        <SectionTitle title="Lectures" subtitle="대표 연수 소개" />
-
-        <div class="grid md:grid-cols-3 gap-6">
-
-          <div class="bg-white rounded-xl shadow p-6">
-            <h3 class="font-bold text-lg text-deepBlue">AI 수업 설계 워크숍</h3>
-            <p class="text-gray-600 mt-2">교실에서 바로 적용 가능한 AI 수업 디자인</p>
-            <a href="연수사진.jpg" download
-              class="text-blue-600 underline mt-3 inline-block">다운로드</a>
-          </div>
-
-          <div class="bg-white rounded-xl shadow p-6">
-            <h3 class="font-bold text-lg text-deepBlue">학부모 대상 AI 이해 교육</h3>
-            <p class="text-gray-600 mt-2">AI 시대의 학부모 교육 이해와 활용</p>
-            <a href="학부모연수.png" download
-              class="text-blue-600 underline mt-3 inline-block">다운로드</a>
-          </div>
-
-          <div class="bg-white rounded-xl shadow p-6">
-            <h3 class="font-bold text-lg text-deepBlue">SW·코딩 기본 연수</h3>
-            <p class="text-gray-600 mt-2">블록코딩부터 텍스트코딩까지 핵심 이해</p>
-            <a href="대회실적.png" download
-              class="text-blue-600 underline mt-3 inline-block">다운로드</a>
-          </div>
-
-        </div>
-      </section>
-    );
-
-    /* -------------------- LINKS / PROJECTS -------------------- */
-    const Projects = () => {
-      const list = [
-        { title: "AI Catch Mind", desc: "AI가 주는 힌트로 그림을 맞히는 웹게임", img: "aicatchmind.png" },
-        { title: "Proverb Game", desc: "속담을 AI가 설명하면 맞히는 학습 게임", img: "proverb-game.png" },
-        { title: "Shopping Mission", desc: "영어 쇼핑 미션 기반 학습 웹앱", img: "shopping-mission.png" },
-        { title: "TTS Demo", desc: "AI 음성 생성(TTS) 체험 도구", img: "tts-demo.png" },
+      const navLinks = [
+        { name: "소개", href: "#about" },
+        { name: "경력", href: "#experience" },
+        { name: "연수", href: "#lectures" },
+        { name: "프로젝트", href: "#portfolio" },
+        { name: "문의", href: "#contact" },
       ];
 
       return (
-        <section id="portfolio" class="max-w-6xl mx-auto px-6 py-20">
-          <SectionTitle title="Projects" subtitle="제가 만든 웹앱 & 프로젝트" />
+        <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'}`}>
+          <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <a href="#" className="text-2xl font-bold tracking-tight text-brand-dark flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-primary to-blue-800 flex items-center justify-center text-white font-black text-lg shadow-lg">K</div>
+              <span>SuJi<span className="text-brand-primary">.AI</span></span>
+            </a>
 
-          <div class="grid md:grid-cols-4 gap-6">
-            {list.map((p) => (
-              <div class="bg-white rounded-xl shadow p-4 hover:shadow-lg duration-200">
-                <img src={p.img} class="w-full h-36 object-cover rounded-lg" />
-                <h3 class="font-bold text-lg mt-4 text-deepBlue">{p.title}</h3>
-                <p class="text-gray-600 mt-2">{p.desc}</p>
-              </div>
-            ))}
+            {/* Desktop Menu */}
+            <div className="hidden md:flex space-x-8">
+              {navLinks.map((link) => (
+                <a key={link.name} href={link.href} className="text-slate-600 hover:text-brand-primary font-medium transition-colors">
+                  {link.name}
+                </a>
+              ))}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button className="md:hidden text-slate-700" onClick={() => setIsOpen(!isOpen)}>
+              {isOpen ? <X /> : <Menu />}
+            </button>
           </div>
-        </section>
-      )
+
+          {/* Mobile Menu Dropdown */}
+          {isOpen && (
+            <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-lg py-4 px-6 flex flex-col space-y-4">
+              {navLinks.map((link) => (
+                <a key={link.name} href={link.href} onClick={() => setIsOpen(false)} className="text-slate-700 hover:text-brand-primary font-medium">
+                  {link.name}
+                </a>
+              ))}
+            </div>
+          )}
+        </nav>
+      );
     };
 
-    /* -------------------- CONTACT -------------------- */
-    const Contact = () => (
-      <section id="contact" class="max-w-4xl mx-auto px-6 py-20 text-center">
-        <SectionTitle title="Contact" subtitle="강의·연수·컨설팅 문의" />
+    const SectionTitle = ({ title, subtitle, icon: Icon }) => (
+      <div className="text-center mb-16 relative">
+        <div className="inline-flex items-center justify-center p-3 bg-blue-50 rounded-2xl mb-4 text-brand-primary animate-bounce duration-1000">
+          {Icon && <Icon size={28} />}
+        </div>
+        <h2 className="text-3xl md:text-4xl font-bold text-brand-dark mb-3 tracking-tight">{title}</h2>
+        <div className="w-20 h-1.5 bg-gradient-to-r from-brand-primary to-brand-silver mx-auto rounded-full mb-4"></div>
+        {subtitle && <p className="text-brand-metallic text-lg">{subtitle}</p>}
+      </div>
+    );
 
-        <p class="text-gray-700 text-lg mb-6">
-          강의·연수·컨설팅 문의는 이메일로 연락 주세요.
-        </p>
+    /* --- Sections --- */
 
-        <a href="mailto:suji03280@gmail.com"
-          class="px-8 py-4 bg-deepBlue text-white rounded-xl shadow hover:bg-blue-900 duration-200 text-lg">
-          suji03280@gmail.com
-        </a>
+    const Hero = () => (
+      <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+        {/* Background Decor */}
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-50"></div>
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-72 h-72 bg-gray-200 rounded-full blur-3xl opacity-50"></div>
+
+        <div className="max-w-7xl mx-auto px-6 flex flex-col-reverse md:flex-row items-center gap-12 relative z-10">
+          <div className="flex-1 text-center md:text-left">
+            <span className="inline-block py-1 px-3 rounded-full bg-blue-100 text-brand-primary font-semibold text-sm mb-6 border border-blue-200">
+              Future Education Leader
+            </span>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-brand-dark leading-tight mb-6">
+              미래를 여는 교육,<br />
+              <span className="text-gradient-blue">교사와 학생을 잇는 AI</span>
+            </h1>
+            <p className="text-lg md:text-xl text-slate-600 mb-10 leading-relaxed max-w-2xl mx-auto md:mx-0">
+              라온초등학교 교사 <strong>김수지</strong>입니다.<br/>
+              기술을 도구로, 사람을 목적으로 하는<br className="md:hidden"/> 스마트한 교육 혁신을 연구합니다.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <a href="#contact" className="px-8 py-4 bg-brand-primary text-white font-bold rounded-2xl shadow-lg shadow-blue-500/30 hover:bg-blue-700 transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
+                <Mail size={20} /> 강의 및 연수 문의
+              </a>
+              <a href="#portfolio" className="px-8 py-4 bg-white text-brand-dark border border-brand-silver font-bold rounded-2xl shadow-sm hover:bg-gray-50 transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
+                포트폴리오 보기 <ChevronRight size={20} />
+              </a>
+            </div>
+          </div>
+
+          <div className="flex-1 flex justify-center relative">
+            {/* 3D Profile Placeholder Container */}
+            <div className="relative w-72 h-72 md:w-96 md:h-96">
+              <div className="absolute inset-0 bg-gradient-to-tr from-brand-silver to-white rounded-full shadow-2xl border-4 border-white flex items-center justify-center overflow-hidden">
+                {/* User Image Here */}
+                <img src="대회실적.png" alt="Kim Suji Profile" className="w-full h-full object-cover" />
+              </div>
+              
+              {/* Floating 3D Icons (Decorative) */}
+              <div className="absolute -top-4 -right-4 bg-white p-3 rounded-2xl shadow-xl animate-pulse">
+                <Zap className="text-yellow-400 w-8 h-8" />
+              </div>
+              <div className="absolute -bottom-4 -left-4 bg-white p-3 rounded-2xl shadow-xl">
+                <MonitorPlay className="text-brand-primary w-8 h-8" />
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     );
 
-    /* -------------------- FOOTER -------------------- */
+    const About = () => (
+      <section id="about" className="py-24 bg-white relative">
+        <div className="max-w-5xl mx-auto px-6">
+          <SectionTitle title="About Me" subtitle="나는 어떤 선생님인가요?" icon={BookOpen} />
+          
+          <div className="glass-card rounded-3xl p-8 md:p-12 border border-blue-100 bg-gradient-to-br from-white to-blue-50/30 shadow-2xl">
+            <div className="space-y-6 text-lg text-slate-700 leading-loose">
+              <p>
+                <span className="text-4xl text-brand-primary font-serif float-left mr-2 mt-[-10px]">“</span>
+                저는 기술을 목적이 아닌 <strong>도구</strong>로 바라봅니다. 
+                진짜 교육의 본질은 결국 <strong>사람</strong>이며, 교실에서 아이들과 마주하는 시간이 가장 중요하다고 믿습니다.
+              </p>
+              <p>
+                AI와 EdTech를 활용하여 교사들의 반복적인 업무를 줄이고, 
+                그 시간만큼 학생과 눈을 맞추는 <strong>따뜻한 교육</strong>을 실천하고 있습니다.
+                기술은 교육을 돕는 가장 조용하고 든든한 조력자가 되어야 합니다.
+              </p>
+              <p className="font-semibold text-brand-dark">
+                변화하는 미래 교육 속에서 학생과 교사가 함께 성장하는 길을 연구합니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+
+    const Experience = () => {
+      const experiences = [
+        { text: "라온초등학교 재직 / AI·SW 기반 미래교육 연구", highlight: true },
+        { text: "SW교육체험센터 전담 겸임교사", highlight: false },
+        { text: "교실혁명 선도교사 활동", highlight: false },
+        { text: "디지털전환유공 — 부총리 겸 교육부 장관상 수상", highlight: true },
+        { text: "AI 활용 학습 혁신 사례 연구 및 연수 강의 다수", highlight: false },
+      ];
+
+      return (
+        <section id="experience" className="py-24 bg-brand-light">
+          <div className="max-w-6xl mx-auto px-6">
+            <SectionTitle title="Experience & Awards" subtitle="걸어온 길, 그리고 성과" icon={Award} />
+            
+            <div className="grid md:grid-cols-2 gap-6">
+              {experiences.map((exp, idx) => (
+                <div key={idx} className={`group flex items-center gap-4 p-6 rounded-2xl border transition-all hover:scale-[1.02] ${exp.highlight ? 'bg-white border-blue-200 shadow-md' : 'bg-slate-50 border-slate-200 hover:bg-white'}`}>
+                  <div className={`p-3 rounded-full ${exp.highlight ? 'bg-blue-100 text-brand-primary' : 'bg-slate-200 text-slate-500'}`}>
+                    <Award size={24} />
+                  </div>
+                  <p className={`text-lg font-medium ${exp.highlight ? 'text-brand-dark' : 'text-slate-600'}`}>
+                    {exp.text}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    const Lectures = () => {
+      const lectures = [
+        { title: "AI 수업 설계 워크숍", desc: "교실에서 바로 적용 가능한 AI 수업 디자인", file: "연수사진.jpg" },
+        { title: "학부모 대상 AI 교육", desc: "AI 시대의 자녀 교육 방향과 이해", file: "학부모연수.png" },
+        { title: "SW·코딩 기초 연수", desc: "블록코딩부터 피지컬 컴퓨팅까지", file: "대회실적.png" },
+      ];
+
+      return (
+        <section id="lectures" className="py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-6">
+            <SectionTitle title="Lectures" subtitle="대표 연수 및 강의 자료" icon={MonitorPlay} />
+            
+            <div className="grid md:grid-cols-3 gap-8">
+              {lectures.map((lec, idx) => (
+                <div key={idx} className="glass-card hover-3d rounded-3xl p-8 relative overflow-hidden group">
+                  <div className="absolute top-0 left-0 w-2 h-full bg-brand-primary transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
+                  
+                  <div className="mb-6 bg-blue-50 w-16 h-16 rounded-2xl flex items-center justify-center text-brand-primary mb-6 group-hover:bg-brand-primary group-hover:text-white transition-colors">
+                    <BookOpen size={32} />
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-brand-dark mb-2">{lec.title}</h3>
+                  <p className="text-slate-500 mb-6 min-h-[50px]">{lec.desc}</p>
+                  
+                  <a href={lec.file} download className="inline-flex items-center gap-2 text-brand-primary font-semibold hover:text-blue-700 transition-colors">
+                    <Download size={18} /> 자료 다운로드
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    const Projects = () => {
+      const projectList = [
+        { title: "AI Catch Mind", desc: "AI 힌트로 그림을 맞히는 창의력 게임", img: "aicatchmind.png", tag: "WEB APP" },
+        { title: "Proverb Game", desc: "속담을 AI가 설명하고 맞히는 문해력 도구", img: "proverb-game.png", tag: "GAME" },
+        { title: "Shopping Mission", desc: "영어 쇼핑 미션 기반 상황극 학습", img: "shopping-mission.png", tag: "EDU" },
+        { title: "TTS Demo Tool", desc: "텍스트를 AI 음성으로 변환하는 체험", img: "tts-demo.png", tag: "AI TOOL" },
+      ];
+
+      return (
+        <section id="portfolio" className="py-24 bg-brand-light">
+          <div className="max-w-7xl mx-auto px-6">
+            <SectionTitle title="Projects" subtitle="직접 개발한 교육용 웹앱" icon={Zap} />
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {projectList.map((p, idx) => (
+                <div key={idx} className="bg-white rounded-3xl shadow-lg overflow-hidden hover-3d border border-slate-100 flex flex-col h-full">
+                  <div className="h-48 overflow-hidden bg-slate-200 relative group">
+                    <img src={p.img} alt={p.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                    <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full">
+                      {p.tag}
+                    </div>
+                  </div>
+                  <div className="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-lg font-bold text-brand-dark mb-2">{p.title}</h3>
+                      <p className="text-slate-500 text-sm">{p.desc}</p>
+                    </div>
+                    <button className="mt-4 w-full py-2 rounded-xl border border-brand-silver text-brand-metallic text-sm hover:bg-brand-primary hover:text-white hover:border-transparent transition-all">
+                      자세히 보기
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    const Contact = () => (
+      <section id="contact" className="py-24 relative overflow-hidden">
+        {/* Background Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-dark to-blue-900 z-0"></div>
+        
+        <div className="max-w-4xl mx-auto px-6 relative z-10 text-center text-white">
+          <h2 className="text-4xl font-bold mb-6">Let's Work Together</h2>
+          <p className="text-blue-200 text-lg mb-10 max-w-2xl mx-auto">
+            AI 교육 연수, 컨설팅, 그리고 새로운 교육 프로젝트 제안을 기다립니다.<br/>
+            선생님들과 아이들을 위한 고민을 함께 나누고 싶습니다.
+          </p>
+
+          <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 md:p-12 border border-white/20 inline-block shadow-2xl">
+            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
+              <div className="text-center md:text-left">
+                <p className="text-blue-300 text-sm uppercase tracking-wider mb-1">Email Contact</p>
+                <a href="mailto:suji03280@gmail.com" className="text-2xl md:text-4xl font-bold hover:text-blue-300 transition-colors">
+                  suji03280@gmail.com
+                </a>
+              </div>
+              <a href="mailto:suji03280@gmail.com" className="px-8 py-4 bg-white text-brand-dark font-bold rounded-xl hover:bg-brand-primary hover:text-white transition-all shadow-lg flex items-center gap-2">
+                메일 보내기 <ExternalLink size={20} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+
     const Footer = () => (
-      <footer class="text-center py-10 text-gray-600">
-        Designed for AI Education / © 2025 Kim Su Ji. All Rights Reserved.
+      <footer className="bg-brand-dark text-slate-400 py-10 text-center border-t border-slate-800">
+        <div className="max-w-6xl mx-auto px-6">
+          <p className="mb-2 text-white font-medium">Teacher Kim Su Ji</p>
+          <p className="text-sm">Designed for AI & Future Education / © 2025 All Rights Reserved.</p>
+        </div>
       </footer>
     );
 
-    /* -------------------- APP -------------------- */
+    /* --- App Root --- */
     const App = () => (
       <>
+        <Navbar />
         <Hero />
         <About />
         <Experience />
@@ -215,9 +397,8 @@
       </>
     );
 
-    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
   </script>
 </body>
-
 </html>
